@@ -7,7 +7,7 @@
     const express = require("express");
     const logger = require("morgan");
     const mongoose = require("mongoose");
-    //const User = require("./userModel.js"); NEED TO SEE WHAT THIS IS ACTIVITY 13
+    const routes = require("./controllers");
 
 /* ---------------------- Define Port For Server Comms ---------------------- */
 
@@ -23,10 +23,11 @@
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(express.static("public"));
+    app.use(routes);
 
-/* -------------------- Create Connectoin to Mongo Server ------------------- */
+/* -------------------- Create Connectoin to Mongo DB Server ------------------- */
 
-    mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true }); // SEE WHAT THIS DOES
+    mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true }); 
 
 /* -------------------------- Start Express Server -------------------------- */
 
