@@ -8,6 +8,7 @@
     const logger = require("morgan");
     const mongoose = require("mongoose");
     const routes = require("./controllers");
+    const path = require('path');
 
 /* ---------------------- Define Port For Server Comms ---------------------- */
 
@@ -25,9 +26,13 @@
     app.use(express.static("public"));
     app.use(routes);
 
+/* -------------------------- Serve the index HTML to the User -------------------------- */
+
+    app.get("/", (req,res) => res.sendFile(path.join(__dirname, "Public")));
+
 /* -------------------- Create Connectoin to Mongo DB Server ------------------- */
 
-    mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true }); 
+    mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", { useNewUrlParser: true }); 
 
 /* -------------------------- Start Express Server -------------------------- */
 
