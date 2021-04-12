@@ -9,6 +9,7 @@
     const mongoose = require("mongoose");
     const routes = require("./controllers");
     const path = require('path');
+    const db = require("./models");
 
 /* ---------------------- Define Port For Server Comms ---------------------- */
 
@@ -26,13 +27,48 @@
     app.use(express.static("public"));
     app.use(routes);
 
-/* -------------------------- Serve the index HTML to the User -------------------------- */
-
-    app.get("/", (req,res) => res.sendFile(path.join(__dirname, "Public")));
-
 /* -------------------- Create Connectoin to Mongo DB Server ------------------- */
 
-    mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workoutdb", { useNewUrlParser: true }); 
+    mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true }); 
+
+/* ----------------- Define Base Path and HTML Static Routes ---------------- */
+
+    // Serve index.html for the base path
+    app.get("/", (req,res) => res.sendFile(path.join(__dirname, "Public")));
+
+    // Serve the exercise html (with option to create new) if they click New Workout
+    app.get("/exercise", (req,res) => res.sendFile(path.join(__dirname, "/Public/html/exercise.html")));
+
+    // Server the stats.html if the dashboard nav is clicked and path becomes /stats
+    app.get("/stats", (req,res) => res.sendFile(path.join(__dirname, "/Public/html/stats.html")));
+
+/* ---------- My api Routes until I figure out route mounting issue --------- */
+
+       // Route to get all workout documents (which then returns the last workout to the main view)
+       app.get("/api/workouts", (req,res) => {
+        db.Workout
+        .find()
+        .sort({day: 1})
+            .then(lastWorkout => {
+                res.json(lastWorkout);
+            })
+            .catch(err => {
+                res.json(err)
+            })
+        })
+
+        // Route to create new Exercise
+        app.post("/api/workouts", ({body},res) => {
+            db.Workout.create(body)
+                .then(newExercise => {
+                    console.log(newExercise);
+                })
+                .catch(err => {
+                    res.json(err);
+                });
+        })
+  
+ 
 
 /* -------------------------- Start Express Server -------------------------- */
 

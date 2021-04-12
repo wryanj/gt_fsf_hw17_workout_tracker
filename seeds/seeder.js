@@ -3,16 +3,17 @@
 /* -------------------------------------------------------------------------- */
 
   let mongoose = require("mongoose");
-  let db = require("../models");
+  let db = require("../models"); // requires by model I created in workout.js
 
 /* -------------------------------------------------------------------------- */
 /*                      Create Connection to Mongo Server                     */
 /* -------------------------------------------------------------------------- */
+
   /*
-    This also seems to be what creates your db
+    This also seems to be what creates your db- but need to check this
   */ 
 
-  mongoose.connect("mongodb://localhost/workoutdb", {
+  mongoose.connect("mongodb://localhost/workout", {
     useNewUrlParser: true,
     useFindAndModify: false
   });
@@ -134,6 +135,12 @@
           weight: 300,
           reps: 10,
           sets: 4
+        },
+        {
+          type: "cardio",
+          name: "Running",
+          duration: 25,
+          distance: 4
         }
       ]
     }

@@ -7,6 +7,7 @@
   /* ---------------------------- Get last workout ---------------------------- */
 
     async getLastWorkout() {
+      console.log('getLastWorkout invoked');
       let res;
       try {
         res = await fetch("/api/workouts");
@@ -14,6 +15,7 @@
         console.log(err)
       }
       const json = await res.json();
+      console.log(json);
 
       return json[json.length - 1];
     },
