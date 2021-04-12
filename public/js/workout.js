@@ -2,14 +2,6 @@
 /*                  Workout Client Script Used On Index HTML                  */
 /* -------------------------------------------------------------------------- */
 
-/* ----------------------- Check for Index DB Support ----------------------- */
-  if (!('indexedDB' in window)) {
-    console.log('This browser doesn\'t support IndexedDB');
-  }
-  else {
-    console.log('indexed DB is supported by this browswer');
-  }
-
 /* -------------------------- init Workout Function ------------------------- */
   /*
     This gets the last workout, populates it to the last workout text
@@ -103,7 +95,6 @@
 
     // Gets the container to display the values in
     const container = document.querySelector(".workout-stats");
-      console.log(container);
 
     // Defines an object that sets propoerties and definitoins for what they should hold
     const workoutKeyMap = {

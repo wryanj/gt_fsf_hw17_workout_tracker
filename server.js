@@ -47,26 +47,54 @@
        // Route to get all workout documents (which then returns the last workout to the main view)
        app.get("/api/workouts", (req,res) => {
         db.Workout
-        .find()
-        .sort({day: 1})
+        .find({})
             .then(lastWorkout => {
                 res.json(lastWorkout);
+                console.log(lastWorkout[8].exercises);
             })
             .catch(err => {
                 res.json(err)
             })
-        })
+        });
 
-        // Route to create new Exercise
+        // Route to create a new workout
         app.post("/api/workouts", ({body},res) => {
+            console.log('create workout route called')
             db.Workout.create(body)
-                .then(newExercise => {
-                    console.log(newExercise);
+                .then(newWorkout => {
+                    console.log(newWorkout);
+                    res.json(newWorkout);
                 })
                 .catch(err => {
                     res.json(err);
                 });
-        })
+        })/
+
+        
+        // Route to create new Exercise
+        app.put("/api/workouts/:id", (req,res) => {
+            console.log ("req body is" + JSON.stringify(req.body));
+            console.log("req.params.id is" + req.params.id);
+
+            db.Workout.findOneAndUpdate(
+                // This is the query to find the id that matches the one in req.params
+                {
+                    _id: req.params.id
+                },
+                // This is the commant to push req.body object into the exercises array
+                {
+                   $push: {exercises: req.body}
+                },
+            )
+            .then(updatedWorkout => {
+                console.log("updated workout is" + updatedWorkout);
+                res.json(updatedWorkout);
+            })
+            .catch (err => {
+                res.json(err)
+            });
+               
+        });
   
  
 

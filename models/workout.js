@@ -11,7 +11,7 @@
 
     // Define the Schema to use when I create my workout model
     const WorkoutSchema = new Schema({
-        day: Date,
+        day: {type: Date, default: Date.now},
         exercises: [
             {
                type: String,

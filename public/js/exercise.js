@@ -39,17 +39,18 @@
   // Declare initExercise
   async function initExercise() {
 
-    console.log('init exercise run');
+    console.log('initExercise function invoked from exercise.js');
 
     let workout;
 
     // Here we say split the search query at 0 and include only one substring after it. If undefined, workout shoudl be create workout
     if (location.search.split("=")[1] === undefined) {
-      workout = await API.createWorkout()
-      console.log(workout)
+      workout = await API.createWorkout();
     }
+    // If a workout is created, update the URI location with its new id
     if (workout) {
       location.search = "?id=" + workout._id;
+      console.log(workout._id);
     }
 
   }
@@ -156,8 +157,8 @@
       workoutData.name = cardioNameInput.value.trim();
       workoutData.distance = Number(distanceInput.value.trim());
       workoutData.duration = Number(durationInput.value.trim());
-
-    } else if (workoutType === "resistance") {
+    } 
+    else if (workoutType === "resistance") {
       workoutData.type = "resistance";
       workoutData.name = nameInput.value.trim();
       workoutData.weight = Number(weightInput.value.trim());
@@ -166,9 +167,11 @@
       workoutData.duration = Number(resistanceDurationInput.value.trim());
     }
 
+    
     await API.addExercise(workoutData);
     clearInputs();
     toast.classList.add("success");
+
   }
 
 function handleToastAnimationEnd() {
