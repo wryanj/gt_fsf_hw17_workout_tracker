@@ -8,20 +8,20 @@
 /* -------------------------------------------------------------------------- */
 /*                                Define Schema                               */
 /* -------------------------------------------------------------------------- */
-
+    const Exercises = new Schema (
+        {
+            type: String,
+            name: String,
+            duration: Number,
+            weight: Number,
+            reps: Number,
+            sets: Number 
+         }
+    );
     // Define the Schema to use when I create my workout model
     const WorkoutSchema = new Schema({
         day: {type: Date, default: Date.now},
-        exercises: [
-            {
-               type: String,
-               name: String,
-               duration: Number,
-               weight: Number,
-               reps: Number,
-               sets: Number 
-            }
-        ]
+        exercises: [Exercises]
     });
 
     // Convert Schema into a mongoose Model (arg 1 is name of model arg 2 is what schema you want your model to have)

@@ -12,7 +12,7 @@
 
     // This gets the last recorded workout from a list of returned workouts
     const lastWorkout = await API.getLastWorkout();
-      console.log("initWorkout invoked. Last workout detected as:", lastWorkout);
+      console.log("initWorkout invoked from workout.js Last workout detected as:", lastWorkout);
     
     // If there is a last workout...
     if (lastWorkout) {
@@ -45,6 +45,7 @@
 
   // Takes in all exercises from the last workout as invoked in initWorkout
   function tallyExercises(exercises) {
+    console.log('tally exercise function invoked on workout.js')
     // Uses reduce method on exercises. Acc is accumlated value, curr is current exercise values
     const tallied = exercises.reduce((acc, curr) => {
       // If exercise type is resistence...
@@ -91,7 +92,7 @@
 
   // The argument here is the workout summary generated in page top initWorkout
   function renderWorkoutSummary(summary) {
-    console.log('render workout summary invoked');
+    console.log('render workout summary invoked from workout.js');
 
     // Gets the container to display the values in
     const container = document.querySelector(".workout-stats");

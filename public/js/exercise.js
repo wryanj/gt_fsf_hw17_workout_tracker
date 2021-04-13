@@ -33,18 +33,19 @@
 /* ------------------------- Init Exercise Function ------------------------- */
 
   /*
-    Function called every time this page is loaded
+    Function called every time the exercise html page is loaded
   */
 
   // Declare initExercise
   async function initExercise() {
 
-    console.log('initExercise function invoked from exercise.js');
+    console.log('init Exercise function invoked from exercise.js');
 
     let workout;
 
     // Here we say split the search query at 0 and include only one substring after it. If undefined, workout shoudl be create workout
     if (location.search.split("=")[1] === undefined) {
+      console.log('no prior workout detected in init exercise, new workout being created')
       workout = await API.createWorkout();
     }
     // If a workout is created, update the URI location with its new id
@@ -65,6 +66,7 @@
   */
 
   function handleWorkoutTypeChange(event) {
+    console.log('handle workout type change invoked on exercise.js')
 
     workoutType = event.target.value;
 
@@ -146,7 +148,7 @@
 
   async function handleFormSubmit(event) {
 
-    console.log(event);
+    console.log('handle form submit function invoked on exercise.js');
 
     event.preventDefault();
 
@@ -175,6 +177,7 @@
   }
 
 function handleToastAnimationEnd() {
+  console.log('handleToastAnimation invoked on exercise.js')
   toast.removeAttribute("class");
   if (shouldNavigateAway) {
     location.href = "/";

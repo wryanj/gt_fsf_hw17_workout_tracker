@@ -42,7 +42,9 @@
     // Server the stats.html if the dashboard nav is clicked and path becomes /stats
     app.get("/stats", (req,res) => res.sendFile(path.join(__dirname, "/Public/html/stats.html")));
 
-/* ---------- My api Routes until I figure out route mounting issue --------- */
+/* -------------------------------------------------------------------------- */
+/*                               Database Routes                              */
+/* -------------------------------------------------------------------------- */
 
        // Route to get all workout documents (which then returns the last workout to the main view)
        app.get("/api/workouts", (req,res) => {
@@ -50,7 +52,7 @@
         .find({})
             .then(lastWorkout => {
                 res.json(lastWorkout);
-                console.log(lastWorkout[8].exercises);
+                console.log(lastWorkout[8]);
             })
             .catch(err => {
                 res.json(err)
@@ -59,7 +61,6 @@
 
         // Route to create a new workout
         app.post("/api/workouts", ({body},res) => {
-            console.log('create workout route called')
             db.Workout.create(body)
                 .then(newWorkout => {
                     console.log(newWorkout);
@@ -68,9 +69,8 @@
                 .catch(err => {
                     res.json(err);
                 });
-        })/
+        })
 
-        
         // Route to create new Exercise
         app.put("/api/workouts/:id", (req,res) => {
             console.log ("req body is" + JSON.stringify(req.body));
@@ -85,20 +85,26 @@
                 {
                    $push: {exercises: req.body}
                 },
+                {
+                    new:true
+                },
+                (err,doc) => {
+                    
+                    if(err) {
+                        console.log('there was an error with your findOneAndUpdate query');
+                    }
+                    console.log('doc is' + doc);
+                }
             )
-            .then(updatedWorkout => {
-                console.log("updated workout is" + updatedWorkout);
-                res.json(updatedWorkout);
-            })
-            .catch (err => {
-                res.json(err)
-            });
+            
                
         });
   
  
 
-/* -------------------------- Start Express Server -------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                               Server Startup                               */
+/* -------------------------------------------------------------------------- */
 
     app.listen(PORT, () => {
     console.log(`App running on port ${PORT}!`);

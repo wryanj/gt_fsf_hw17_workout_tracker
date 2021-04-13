@@ -7,7 +7,7 @@
   /* ---------------------------- Get last workout ---------------------------- */
 
     async getLastWorkout() {
-      console.log('getLastWorkout invoked');
+      console.log('getLastWorkout invoked from api.js');
 
       // declare a local variable res, with no value yet
       let res;
@@ -30,6 +30,7 @@
   /* -----------------------------  Add exercise ------------------------------ */
 
     async addExercise(data) {
+      console.log('addExercise function invoked from api.js')
 
       // Get the id from the current workout (listed in the URI)
       const id = location.search.split("=")[1];
