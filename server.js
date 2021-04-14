@@ -12,6 +12,7 @@
         const range = dayjs().subtract(7,'day').format('YYYY-MM-DDTHH:mm:ss')
         console.log('dayjs calc test, range is = ' + range);
         console.log('other date test js' + new Date().setDate(new Date().getDate()-6));
+  
     
     // Specify Port
     const PORT = process.env.PORT || 3000;
@@ -23,7 +24,10 @@
     app.use(logger("dev"));
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-    app.use(express.static("public"));
+   
+    // Setup the Express app to handle static files (ensures my html can get the client logic and CSS to use within my public folder)
+    let public = path.join(__dirname, "public");
+    app.use(express.static(public));
 
     // Create connection to db server
     mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout",
@@ -43,13 +47,13 @@
 /* ------------------------------- HTML Routes ------------------------------ */
 
     // Serve index.html for the base path
-    app.get("/", (req,res) => res.sendFile(path.join(__dirname, "Public")));
+    app.get("/", (req,res) => res.sendFile(path.join(__dirname, "public")));
 
     // Serve the exercise html (with option to create new) if they click New Workout
-    app.get("/exercise", (req,res) => res.sendFile(path.join(__dirname, "/Public/html/exercise.html")));
+    app.get("/exercise", (req,res) => res.sendFile(path.join(__dirname, "/public/html/exercise.html")));
 
     // Server the stats.html if the dashboard nav is clicked and path becomes /stats
-    app.get("/stats", (req,res) => res.sendFile(path.join(__dirname, "/Public/html/stats.html")));
+    app.get("/stats", (req,res) => res.sendFile(path.join(__dirname, "/public/html/stats.html")));
 
 /* ------------------------------ Mongo Routes ------------------------------ */
 
