@@ -2,8 +2,7 @@
 /*                                SERVER SETUP                                */
 /* -------------------------------------------------------------------------- */
 
-/* --------------------------- Import Dependencies -------------------------- */
-
+    // Import Dependencies
     const express = require("express");
     const logger = require("morgan");
     const mongoose = require("mongoose");
@@ -14,27 +13,26 @@
         console.log('dayjs calc test, range is = ' + range);
         console.log('other date test js' + new Date().setDate(new Date().getDate()-6));
     
-
-/* ---------------------- Define Port For Server Comms ---------------------- */
-
+    // Specify Port
     const PORT = process.env.PORT || 3000;
 
-/* ------------------------- Define Express Instance ------------------------ */
-
+    // Define Express Instance
     const app = express();
 
-/* ---------------------------- Define MiddleWare --------------------------- */
-
+    // Define Middleware
     app.use(logger("dev"));
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(express.static("public"));
 
-/* -------------------- Create Connectoin to Mongo DB Server ------------------- */
-
+    // Create connection to db server
     mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true }); 
 
-/* ----------------- Define Base Path and HTML Static Routes ---------------- */
+/* -------------------------------------------------------------------------- */
+/*                                   Routes                                   */
+/* -------------------------------------------------------------------------- */
+
+/* ------------------------------- HTML Routes ------------------------------ */
 
     // Serve index.html for the base path
     app.get("/", (req,res) => res.sendFile(path.join(__dirname, "Public")));
@@ -45,9 +43,7 @@
     // Server the stats.html if the dashboard nav is clicked and path becomes /stats
     app.get("/stats", (req,res) => res.sendFile(path.join(__dirname, "/Public/html/stats.html")));
 
-/* -------------------------------------------------------------------------- */
-/*                               Database Routes                              */
-/* -------------------------------------------------------------------------- */
+/* ------------------------------ Mongo Routes ------------------------------ */
 
        // Route to get all workout documents (which then returns the last workout to the main view)
        app.get("/api/workouts", (req,res) => {
@@ -109,7 +105,6 @@
                 },
                 // Specifies specifically for this operation what to do in case of an error
                 (err,doc) => {
-                    
                     if(err) {
                         console.log('there was an error with your findOneAndUpdate query');
                     }
@@ -125,7 +120,6 @@
         });
   
  
-
 /* -------------------------------------------------------------------------- */
 /*                               Server Startup                               */
 /* -------------------------------------------------------------------------- */
