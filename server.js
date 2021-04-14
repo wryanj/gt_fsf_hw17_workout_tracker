@@ -101,7 +101,7 @@
                 },
                 // This is the command to push req.body object into the exercises array (which is an array of exercise subdocuments)
                 {
-                   $push: {exercises: req.body}
+                   $addToSet: {exercises: req.body}
                 },
                 // this specifies its a new item being pushed into the array
                 {

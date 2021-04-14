@@ -106,7 +106,7 @@
           type: "resistance",
           name: "Quad Press",
           duration: 30,
-          weight: 300,
+          weight: 450,
           reps: 10,
           sets: 4
         }
@@ -132,7 +132,7 @@
           type: "resistance",
           name: "Military Press",
           duration: 20,
-          weight: 300,
+          weight: 365,
           reps: 10,
           sets: 4
         },
