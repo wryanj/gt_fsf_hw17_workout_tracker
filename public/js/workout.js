@@ -25,8 +25,8 @@
       // Set workout summary to equal an object with properties retrieved from the lastworkout returned object....
       const workoutSummary = {
         date: formatDate(lastWorkout.day),
-        totalDuration: lastWorkout.totalDuration, // THIS NOT WORKING
-        numExercises: lastWorkout.exercises.length, // THIS NOT WORKING
+        totalDuration: lastWorkout.totalDuration, // THIS NOT WORKING- add total duration property to document
+        numExercises: lastWorkout.exercises.length,
         // Using spread operator with tally exercises function to get accumulated totals from all exercises present in the workout
         ...tallyExercises(lastWorkout.exercises)
       };
@@ -48,6 +48,10 @@
     console.log('tally exercise function invoked on workout.js')
     // Uses reduce method on exercises. Acc is accumlated value, curr is current exercise values
     const tallied = exercises.reduce((acc, curr) => {
+
+      // Regardless if its resistance or cardio, set total duration (duratin exists for both types)
+      acc.totalDuration = (acc.totalDuration || 0) + curr.duration;
+
       // If exercise type is resistence...
       if (curr.type === "resistance") {
         // set the total weight accumulated so far to the last amount plus this amount (if no last amount, add to 0)
@@ -55,13 +59,16 @@
         acc.totalSets = (acc.totalSets || 0) + curr.sets;
         acc.totalReps = (acc.totalReps || 0) + curr.reps;
       } 
+
       // Else if its cardio, just do that with total distance
       else if (curr.type === "cardio") {
         acc.totalDistance = (acc.totalDistance || 0) + curr.distance;
       }
       // return an object, containing accumlulated values from each exercise as its propoerty
       return acc;
-    }, {});
+    }, 
+    {});
+    
     // return the tallied variable, which will add totalweight, total Sets etc... as properties to workout summary from init workout
     return tallied;
   };

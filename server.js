@@ -48,16 +48,27 @@
 
        // Route to get all workout documents (which then returns the last workout to the main view)
        app.get("/api/workouts", (req,res) => {
-        db.Workout
-        .find({})
-            .then(lastWorkout => {
-                res.json(lastWorkout);
-                console.log(lastWorkout[8]);
-            })
-            .catch(err => {
-                res.json(err)
-            })
+
+            // Add a field that is total duration for all exercises -- ? Where to I put this in the sequence of the query?
+            // db.Workout.aggregate ([
+            //     {
+            //          set: {
+            //              addFields: {totalDuration: {sum:"$exercises.duration"}}
+            //         }
+            //     }
+            // ])
+             
+                
+            db.Workout.find({})
+                .then(workouts => {
+                    res.json(workouts);
+                })
+                .catch(err => {
+                    res.json(err)
+                })
         });
+       
+       
 
         // Route to create a new workout
         app.post("/api/workouts", ({body},res) => {
@@ -81,13 +92,15 @@
                 {
                     _id: req.params.id
                 },
-                // This is the commant to push req.body object into the exercises array
+                // This is the command to push req.body object into the exercises array
                 {
                    $push: {exercises: req.body}
                 },
+                // this specifies its a new item being pushed into the array
                 {
                     new:true
                 },
+                // Specifies specifically for this operation what to do in case of an error
                 (err,doc) => {
                     
                     if(err) {
@@ -96,8 +109,12 @@
                     console.log('doc is' + doc);
                 }
             )
-            
-               
+            .then (updatedWorkout => {
+                res.json(updatedWorkout);
+            })
+            .catch(err => {
+                res.json(err);
+            });   
         });
   
  
