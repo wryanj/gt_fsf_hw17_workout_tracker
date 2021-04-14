@@ -6,8 +6,16 @@
     const Schema = mongoose.Schema;
 
 /* -------------------------------------------------------------------------- */
-/*                                Define Schema                               */
+/*                                Define Schemas                              */
 /* -------------------------------------------------------------------------- */
+    /*
+        Two schemas are below. One is the main model, the other is a sub-doc
+        These are necessary to better work with arrays per mongoose docs
+    */
+
+/* -------------------------- Sub-Schema For Array -------------------------- */
+
+    // Define Schema
     const Exercises = new Schema (
         {
             type: String,
@@ -18,10 +26,13 @@
             sets: Number 
          }
     );
-    // Define the Schema to use when I create my workout model
+
+/* ------------------------------- Main Schema ------------------------------ */
+
+    // Define Schema
     const WorkoutSchema = new Schema({
         day: {type: Date, default: Date.now},
-        exercises: [Exercises]
+        exercises: [Exercises] // This references the sub-schema above
     });
 
     // Convert Schema into a mongoose Model (arg 1 is name of model arg 2 is what schema you want your model to have)
