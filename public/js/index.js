@@ -16,7 +16,7 @@
   async function init() {
 
   console.log('init function invoked from index.js');
-    console.log(location.search.split("=")[1]);
+    console.log('id from last workout detecteda as' + location.search.split("=")[1]);
 
     // If the path has no last workout id in it...
     if (location.search.split("=")[1] === undefined) {

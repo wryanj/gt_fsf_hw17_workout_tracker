@@ -1,3 +1,13 @@
+/* -------------------------------------------------------------------------- */
+/*                                Stats Script                                */
+/* -------------------------------------------------------------------------- */
+
+/* ------------------------- Generates Color Pallet ------------------------- */
+
+/*
+  Invoked within the populate chart function
+*/
+
 function generatePalette() {
   const arr = [
     '#003f5c',
@@ -21,8 +31,17 @@ function generatePalette() {
   return arr;
 }
 
+/* ----------------------- Creates and Populates Chart ---------------------- */
+
+/*
+  data here is an array of workouts provided to this function via the api call. 
+  The map function is returning a new array, based on running a function on each
+  item within the data array. 
+*/
+
 function populateChart(data) {
-  let durations = data.map(({ totalDuration }) => totalDuration);
+  //let durations = data.map(({ totalDuration }) => totalDuration); // This was original code, but I decided to manage as seen below on client side
+  let durations = calculateTotalDuration(data);
   let pounds = calculateTotalWeight(data);
   let workouts = workoutNames(data);
   const colors = generatePalette();
@@ -173,6 +192,8 @@ function populateChart(data) {
   });
 }
 
+/* ------------------------- Calculates Total Weight ------------------------ */
+
 function calculateTotalWeight(data) {
   let totals = [];
 
@@ -191,6 +212,28 @@ function calculateTotalWeight(data) {
   return totals;
 }
 
+/* ------------------------- Calculates Total Weight ------------------------ */
+
+function calculateTotalDuration(data) {
+  let totals = [];
+
+  data.forEach((workout) => {
+    const workoutTotal = workout.exercises.reduce((total, { type, duration }) => {
+      if (type === 'resistance' || type==='cardio') {
+        return total + duration;
+      } else {
+        return total;
+      }
+    }, 0);
+
+    totals.push(workoutTotal);
+  });
+
+  return totals;
+}
+
+/* --------------------------- Gets Workout Names --------------------------- */
+
 function workoutNames(data) {
   let workouts = [];
 
@@ -204,5 +247,8 @@ function workoutNames(data) {
   return [...new Set(workouts)];
 }
 
-// get all workout data from back-end
-API.getWorkoutsInRange().then(populateChart);
+/* --------------------- Calls for Data Totals From API --------------------- */
+  /*
+    This calls for the data totals then invokes the populate chart function
+  */
+  API.getWorkoutsInRange().then(populateChart);

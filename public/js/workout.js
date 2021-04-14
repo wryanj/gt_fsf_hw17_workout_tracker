@@ -2,6 +2,8 @@
 /*                  Workout Client Script Used On Index HTML                  */
 /* -------------------------------------------------------------------------- */
 
+console.log(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000));
+
 /* -------------------------- init Workout Function ------------------------- */
   /*
     This gets the last workout, populates it to the last workout text
@@ -68,7 +70,7 @@
       return acc;
     }, 
     {});
-    
+
     // return the tallied variable, which will add totalweight, total Sets etc... as properties to workout summary from init workout
     return tallied;
   };

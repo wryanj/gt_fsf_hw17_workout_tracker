@@ -16,7 +16,7 @@
 /* ----------------- Subdocument Schema For Exercises Array ----------------- */
 
     // Define Subdocument Schema
-    const Exercises = new Schema (
+    const ExerciseSchema = new Schema (
         {
             type: String,
             name: String,
@@ -41,7 +41,7 @@
     // Define Main Schema
     const WorkoutSchema = new Schema({
         day: {type: Date, default: Date.now},
-        exercises: [Exercises] // This references the subdocument schema above
+        exercises: [ExerciseSchema] // This references the subdocument schema above
     });
 
     // Convert Schema into a mongoose Model (arg 1 is name of model arg 2 is what schema you want your model to have)

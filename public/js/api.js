@@ -6,6 +6,11 @@
     
   /* ---------------------------- Get last workout ---------------------------- */
 
+    /*
+      This actually returns the full list of workouts from the db, and the last one
+      is calculated on the client side
+    */
+
     async getLastWorkout() {
       console.log('getLastWorkout invoked from api.js');
 
@@ -21,13 +26,16 @@
 
       // Set the json varaiable equal to the list of reuturned workouks
       const json = await res.json();
-      console.log(json);
 
       // return the item that is that list lenght -1 (which is the last recorded workout on the list, last workout)
       return json[json.length - 1];
     },
 
   /* -----------------------------  Add exercise ------------------------------ */
+
+    /*
+      This allows for the addition of new exercises to a new or existing workout
+    */
 
     async addExercise(data) {
       console.log('addExercise function invoked from api.js')
@@ -52,6 +60,10 @@
 
   /* ----------------------------- Create Workout ----------------------------- */
 
+    /*
+      This is used to create a new workout from the home page
+    */
+
     async createWorkout(data = {}) {
       // post the submitted data
       const res = await fetch("/api/workouts", {
@@ -69,10 +81,14 @@
 
   /* -------------------------- Get Workouts In Range ------------------------- */
 
+    /*
+      This is used to create a new workout from the home page. The rante here
+      should be all workouts within the last 7 days
+    */
+
     async getWorkoutsInRange() {
       const res = await fetch(`/api/workouts/range`);
       const json = await res.json();
-
       return json;
     },
   };

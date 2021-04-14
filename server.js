@@ -7,9 +7,13 @@
     const express = require("express");
     const logger = require("morgan");
     const mongoose = require("mongoose");
-    const routes = require("./controllers");
     const path = require('path');
     const db = require("./models");
+    const dayjs = require("dayjs");
+        const range = dayjs().subtract(7,'day').format('YYYY-MM-DDTHH:mm:ss')
+        console.log('dayjs calc test, range is = ' + range);
+        console.log('other date test js' + new Date().setDate(new Date().getDate()-6));
+    
 
 /* ---------------------- Define Port For Server Comms ---------------------- */
 
@@ -25,7 +29,6 @@
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     app.use(express.static("public"));
-    app.use(routes);
 
 /* -------------------- Create Connectoin to Mongo DB Server ------------------- */
 
@@ -48,17 +51,6 @@
 
        // Route to get all workout documents (which then returns the last workout to the main view)
        app.get("/api/workouts", (req,res) => {
-
-            // Add a field that is total duration for all exercises -- ? Where to I put this in the sequence of the query?
-            // db.Workout.aggregate ([
-            //     {
-            //          set: {
-            //              addFields: {totalDuration: {sum:"$exercises.duration"}}
-            //         }
-            //     }
-            // ])
-             
-                
             db.Workout.find({})
                 .then(workouts => {
                     res.json(workouts);
@@ -67,7 +59,21 @@
                     res.json(err)
                 })
         });
-       
+
+        // Route to get all workout documents within last 7 days (within range)
+       app.get("/api/workouts/range", (req,res) => {
+            db.Workout.find({
+                day: {
+                    $gte: new Date().setDate(new Date().getDate()-6)
+                }
+            })
+                .then(workouts => {
+                    res.json(workouts);
+                })
+                .catch(err => {
+                    res.json(err)
+                })
+        });
        
 
         // Route to create a new workout
@@ -84,15 +90,16 @@
 
         // Route to create new Exercise
         app.put("/api/workouts/:id", (req,res) => {
+            console.log('CREATE NEW EXERCISE API ROUTE CALLED');
             console.log ("req body is" + JSON.stringify(req.body));
             console.log("req.params.id is" + req.params.id);
 
             db.Workout.findOneAndUpdate(
-                // This is the query to find the id that matches the one in req.params
+                // This is the query to find the id of the workout document that matches the one in req.params
                 {
                     _id: req.params.id
                 },
-                // This is the command to push req.body object into the exercises array
+                // This is the command to push req.body object into the exercises array (which is an array of exercise subdocuments)
                 {
                    $push: {exercises: req.body}
                 },
