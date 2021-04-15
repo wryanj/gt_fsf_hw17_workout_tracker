@@ -12,9 +12,13 @@
 **Deployed App (Heroku)**      
 https://blooming-stream-98465.herokuapp.com/stats
 
+**Dashboard Snapshot** 
+![image](https://user-images.githubusercontent.com/72420733/114797633-a0cb5200-9d61-11eb-8184-1abfd727e5e7.png)
+
 **Demo Video**       
 Demo video below is guided walkthorough of application.  
 https://user-images.githubusercontent.com/72420733/114797464-387c7080-9d61-11eb-8942-fde133bc9ea7.mp4
+
 
 This project was our first time working with a No SQL database. We utilized Mongo DB and mongoose to establish a db and create some routes allowing for users to log and track workout data. I utilized the mongoose docs to establish two schemas for my db- one of which was then used as a subdocument in my main schema. I also decomposed the client code we were provided with just for additional learning, and so that I could understand how to best setup the backend based on the client code we had already been provided. After review, I did decided to modify some code on the client end to achieve the calculation of total duration, as opposed to aggregating into a total duration field within each exercise. However this was a very small change. I did this ensure consistency with how other totals were calculated (the calculations were all done within client script), and to keep my database queries as simple as possible. 
 
